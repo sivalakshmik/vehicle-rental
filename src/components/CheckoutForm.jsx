@@ -1,14 +1,14 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 function CheckoutForm({ amount, vehicleId, startDate, endDate }) {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState('');
 
   useEffect(() => {
-    axios.post('http://localhost:5000/api/payments/create-intent', { amount })
+    axios.post(`${API_BASE_URL}/api/payments/create-intent`, { amount })
       .then(res => setClientSecret(res.data.clientSecret));
   }, [amount]);
 
@@ -23,7 +23,7 @@ function CheckoutForm({ amount, vehicleId, startDate, endDate }) {
     });
 
     if (!error) {
-      await axios.post('http://localhost:5000/api/bookings', {
+      await axios.post(`${API_BASE_URL}/api/bookings`, {
         vehicleId, startDate, endDate
       }, { headers: { Authorization: token } });
 
@@ -43,4 +43,5 @@ function CheckoutForm({ amount, vehicleId, startDate, endDate }) {
     </form>
   );
 }
+
 export default CheckoutForm;

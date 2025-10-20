@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "https://vehicle-rental-server-kzuh.onrender.com";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 console.log("🌍 API_BASE_URL in build:", API_BASE_URL);
 // ✅ LOGIN
 export const login = async (email, password) => {
@@ -21,5 +21,6 @@ export const getUser = async (token) => {
   });
   return res.data;
 };
+
 
 

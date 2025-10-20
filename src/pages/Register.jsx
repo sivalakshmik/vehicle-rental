@@ -1,22 +1,25 @@
-
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: ''
+    name: "",
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
+
+  // ✅ Add this line ↓
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  console.log("🔍 VITE_API_URL in Register.jsx:", API_BASE_URL);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -24,23 +27,24 @@ export default function Register() {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.password) {
-      alert('Please fill in all fields');
+      alert("Please fill in all fields");
       return;
     }
 
     try {
+      // ✅ Use full backend URL here
       const res = await axios.post(`${API_BASE_URL}/api/users/register`, {
         name: formData.name,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
       });
 
-      console.log('✅ Registered:', res.data);
-      alert('Registration successful! Please log in.');
-      navigate('/login');
+      console.log("✅ Registered:", res.data);
+      alert("Registration successful! Please log in.");
+      navigate("/login");
     } catch (err) {
-      console.error('❌ Register error:', err.response?.data || err.message);
-      alert(err.response?.data?.message || 'Registration failed');
+      console.error("❌ Register error:", err.response?.data || err.message);
+      alert(err.response?.data?.message || "Registration failed");
     }
   };
 
@@ -95,7 +99,7 @@ export default function Register() {
           <span className="text-gray-600">Already have an account?</span>
           <button
             type="button"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate("/login")}
             className="ml-2 text-blue-600 hover:underline font-medium"
           >
             Login here
@@ -105,4 +109,3 @@ export default function Register() {
     </div>
   );
 }
-

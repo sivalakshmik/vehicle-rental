@@ -52,7 +52,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     try {
       setLoadingVehicleId(vehicleId);
       const res = await axios.post(
-        "/api/payments/create-session",
+        `${API_BASE_URL}/api/payments/create-session`,
         {
           vehicleId,
           startDate: range.startDate.toISOString(),
@@ -89,7 +89,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     setExpandedVehicle(vehicleId);
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/reviews/vehicle/${vehicleId}`
+        `${API_BASE_URL}/api/reviews/vehicle/${vehicleId}`
       );
       setReviews((prev) => ({ ...prev, [vehicleId]: res.data }));
     } catch (err) {
@@ -105,7 +105,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
     try {
       await axios.post(
-        `http://localhost:5000/api/reviews/${vehicleId}`,
+       `${API_BASE_URL}/api/reviews/${vehicleId}`,
         newReview,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -261,6 +261,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     </section>
   );
 }
+
 
 
 

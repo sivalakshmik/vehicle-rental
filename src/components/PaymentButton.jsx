@@ -18,7 +18,7 @@ const PaymentButton = ({ vehicleId, startDate, endDate }) => {
       }
 
       const res = await axios.post(
-        '/api/payments/create-session', 
+        `${API_BASE_URL}/api/payments/create-session', 
         {
           vehicleId,
           startDate: startDate.toISOString(),
@@ -48,3 +48,4 @@ const PaymentButton = ({ vehicleId, startDate, endDate }) => {
 };
 
 export default PaymentButton;
+

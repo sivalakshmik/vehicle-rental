@@ -3,11 +3,11 @@ import axios from "axios";
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/admin/bookings", {
+      .get(`${API_BASE_URL}/api/admin/bookings`, {
          headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setBookings(res.data))
@@ -49,3 +49,4 @@ export default function AdminBookings() {
     </div>
   );
 }
+

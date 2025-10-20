@@ -33,7 +33,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const token = localStorage.getItem("token");
     try {
       await axios.put(
-        ``${API_BASE_URL}/api/bookings/${bookingId}/cancel`,
+        `${API_BASE_URL}/api/bookings/${bookingId}/cancel`,
         null,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -174,4 +174,5 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     </section>
   );
 }
+
 

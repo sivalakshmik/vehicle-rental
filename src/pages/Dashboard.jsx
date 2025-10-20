@@ -5,13 +5,13 @@ import Swal from "sweetalert2";
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await axios.get("/api/bookings/my", {
+      const res = await axios.get(`${API_BASE_URL}/api/bookings/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings(res.data);
@@ -33,7 +33,7 @@ export default function MyBookings() {
     const token = localStorage.getItem("token");
     try {
       await axios.put(
-        `/api/bookings/${bookingId}/cancel`,
+        ``${API_BASE_URL}/api/bookings/${bookingId}/cancel`,
         null,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -58,7 +58,7 @@ export default function MyBookings() {
   const handleDownloadInvoice = async (paymentId) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get(`/api/payments/invoice/${paymentId}`, {
+      const res = await axios.get(`${API_BASE_URL}/api/payments/invoice/${paymentId}`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: "blob",
       });
@@ -174,3 +174,4 @@ export default function MyBookings() {
     </section>
   );
 }
+

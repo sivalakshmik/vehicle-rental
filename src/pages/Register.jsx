@@ -29,7 +29,7 @@ export default function Register() {
     }
 
     try {
-      const res = await axios.post('/api/users/register', {
+      const res = await axios.post(`${API_BASE_URL}/api/users/register`, {
         name: formData.name,
         email: formData.email,
         password: formData.password
@@ -105,3 +105,4 @@ export default function Register() {
     </div>
   );
 }
+

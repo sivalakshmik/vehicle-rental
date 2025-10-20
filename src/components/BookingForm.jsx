@@ -6,7 +6,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 export default function BookingForm({ vehicleId }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -16,7 +16,7 @@ export default function BookingForm({ vehicleId }) {
   // ✅ Fetch booked dates
   const fetchBookedDates = async () => {
     try {
-      const res = await axios.get(`/api/bookings/vehicle/${vehicleId}/booked-dates`);
+      const res = await axios.get(`${API_BASE_URL}/api/bookings/vehicle/${vehicleId}/booked-dates`);
       const ranges = res.data.map((b) => ({
         start: new Date(b.startDate),
         end: new Date(b.endDate),
@@ -46,7 +46,7 @@ export default function BookingForm({ vehicleId }) {
 
     try {
       const res = await axios.post(
-        '/api/payments/create-session',
+        `${API_BASE_URL}/api/payments/create-session',
         {
           vehicleId,
           startDate: startDate.toISOString(),
@@ -146,3 +146,4 @@ export default function BookingForm({ vehicleId }) {
     </div>
   );
 }
+

@@ -11,12 +11,12 @@ export default function VehicleList() {
   const [expandedVehicle, setExpandedVehicle] = useState(null);
   const [reviews, setReviews] = useState({});
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   // ✅ Fetch available vehicles
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/vehicles");
+        const res = await axios.get("${API_BASE_URL}/api/vehicles");
         setVehicles(res.data);
       } catch (err) {
         console.error("❌ Vehicle fetch error:", err);
@@ -261,4 +261,5 @@ export default function VehicleList() {
     </section>
   );
 }
+
 

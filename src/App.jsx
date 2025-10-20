@@ -13,6 +13,7 @@ import AdminBookings from './pages/AdminBookings.jsx';
 import AdminUsers from './pages/AdminUsers.jsx';
 import AdminVehicles from './pages/AdminVehicles.jsx';
 import './index.css';
+import "./checkEnv.js";
 
 export default function App() {
   const { user } = useContext(AuthContext);

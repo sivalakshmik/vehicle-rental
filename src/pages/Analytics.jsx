@@ -9,7 +9,7 @@ function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
   const [users, setUsers] = useState([]);
   const [reviews, setReviews] = useState([]);
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const token = localStorage.getItem("token");
   const headers = { Authorization: `Bearer ${token}` };
 
@@ -24,7 +24,7 @@ function AdminDashboard() {
     }
 
     axios
-      .get("http://localhost:5000/api/admin/dashboard", { headers })
+      .get(`${API_BASE_URL}/admin/dashboard`, { headers })
       .then((res) => setData(res.data))
       .catch((err) => console.error("❌ Dashboard fetch error:", err));
   }, []);
@@ -37,28 +37,28 @@ function AdminDashboard() {
 
     if (activeTab === "vehicles") {
       axios
-        .get("http://localhost:5000/api/admin/vehicles", { headers })
+        .get(`${API_BASE_URL}/api/admin/vehicles`, { headers })
         .then((res) => setVehicles(res.data))
         .catch((err) => console.error("❌ Vehicles fetch error:", err));
     }
 
     if (activeTab === "bookings") {
       axios
-        .get("http://localhost:5000/api/admin/bookings", { headers })
+        .get(`${API_BASE_URL}/api/admin/bookings`, { headers })
         .then((res) => setBookings(res.data))
         .catch((err) => console.error("❌ Bookings fetch error:", err));
     }
 
     if (activeTab === "users") {
       axios
-        .get("http://localhost:5000/api/admin/users", { headers })
+        .get(`${API_BASE_URL}/api/admin/users`, { headers })
         .then((res) => setUsers(res.data))
         .catch((err) => console.error("❌ Users fetch error:", err));
     }
 
     if (activeTab === "reviews") {
       axios
-        .get("http://localhost:5000/api/reviews/pending", { headers })
+        .get(`${API_BASE_URL}/api/reviews/pending`, { headers })
         .then((res) => setReviews(res.data))
         .catch((err) => console.error("❌ Reviews fetch error:", err));
     }
@@ -70,7 +70,7 @@ function AdminDashboard() {
   const handleReviewModeration = async (reviewId, approved) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/reviews/${reviewId}/moderate`,
+       `${API_BASE_URL}/api/reviews/${reviewId}/moderate`,
         { approved },
         { headers }
       );
@@ -315,3 +315,4 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
+

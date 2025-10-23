@@ -8,7 +8,7 @@ export default function Home() {
         KVS Vehicle Rentals
       </h1>
       <p className="text-xl md:text-2xl text-gray-800 mb-10 text-center max-w-2xl">
-        Discover seamless rentals for cars, bikes, and vans. Flexible bookings, transparent pricing, and full admin control — all in one place.
+       Drive your dreams today. Discover top-quality vehicles at unbeatable prices...
       </p>
       <div className="flex flex-col md:flex-row gap-6">
         <Link
@@ -27,3 +27,4 @@ export default function Home() {
     </div>
   );
 }
+

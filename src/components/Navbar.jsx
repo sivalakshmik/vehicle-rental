@@ -19,7 +19,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-indigo-500 p-4 flex justify-between">
-      <NavLink to="/home" className="text-white font-bold">KVS Venhicle Rental</NavLink>
+      <NavLink to="/home" className="text-white font-bold">KVS Vehicle Rental</NavLink>
       <div className="space-x-4">
         {!user && <NavLink to="/login" className={linkCls}>Login</NavLink>}
         {user && (
@@ -34,3 +34,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

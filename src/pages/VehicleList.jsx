@@ -25,7 +25,7 @@ export default function VehicleList() {
     import.meta.env.VITE_API_URL ||
     "https://vehicle-rental-server-kzuh.onrender.com";
 
-  // ✅ Fetch vehicles based on filters
+  // ✅ Fetch vehicles with filters
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
@@ -49,7 +49,7 @@ export default function VehicleList() {
     }));
   };
 
-  // ✅ Handle payment + booking
+  // ✅ Payment + Booking handler
   const handlePayment = async (vehicleId) => {
     const range = dateRanges[vehicleId];
     if (!range?.startDate || !range?.endDate)
@@ -77,7 +77,7 @@ export default function VehicleList() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      window.location.href = res.data.url; // Stripe redirect
+      window.location.href = res.data.url;
     } catch (error) {
       console.error("❌ Payment error:", error);
       if (error.response?.status === 409)
@@ -89,13 +89,12 @@ export default function VehicleList() {
   };
 
   // ✅ Disable unavailable dates
-  const isDateUnavailable = (date, bookedRanges = []) => {
-    return bookedRanges.some(
+  const isDateUnavailable = (date, bookedRanges = []) =>
+    bookedRanges.some(
       (b) => date >= new Date(b.startDate) && date <= new Date(b.endDate)
     );
-  };
 
-  // ✅ Toggle expand card (load reviews)
+  // ✅ Expand card to show reviews
   const toggleExpand = async (vehicleId) => {
     if (expandedVehicle === vehicleId) {
       setExpandedVehicle(null);
@@ -103,27 +102,23 @@ export default function VehicleList() {
     }
     setExpandedVehicle(vehicleId);
     try {
-      const res = await axios.get(
-        `${API_BASE_URL}/api/reviews/vehicle/${vehicleId}`
-      );
+      const res = await axios.get(`${API_BASE_URL}/api/reviews/vehicle/${vehicleId}`);
       setReviews((prev) => ({ ...prev, [vehicleId]: res.data }));
     } catch (err) {
       console.error("❌ Failed to load reviews:", err);
     }
   };
 
-  // ✅ Submit new review
+  // ✅ Submit review
   const handleSubmitReview = async (vehicleId) => {
     const token = localStorage.getItem("token");
     if (!token)
       return Swal.fire("Login Required", "Please log in to leave a review.", "info");
 
     try {
-      await axios.post(
-        `${API_BASE_URL}/api/reviews/${vehicleId}`,
-        newReview,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.post(`${API_BASE_URL}/api/reviews/${vehicleId}`, newReview, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       Swal.fire("✅ Submitted", "Your review was sent for approval.", "success");
       setNewReview({ rating: 5, comment: "" });
     } catch (err) {
@@ -146,7 +141,7 @@ export default function VehicleList() {
       <div className="bg-white p-4 rounded-xl shadow-md max-w-6xl mx-auto mb-8 grid md:grid-cols-6 gap-3">
         <input
           type="text"
-          placeholder="Search (make or model)"
+          placeholder="Search (make, model, or type)"
           value={filters.keyword}
           onChange={(e) => setFilters({ ...filters, keyword: e.target.value })}
           className="border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300 outline-none"
@@ -159,7 +154,7 @@ export default function VehicleList() {
           <option value="">All Types</option>
           <option value="car">Car</option>
           <option value="bike">Bike</option>
-          <option value="van">Scooter</option>
+          <option value="scooty">Scooty</option>
         </select>
         <input
           type="text"
@@ -269,7 +264,7 @@ export default function VehicleList() {
                     : "Write Your Reviews ↓"}
                 </button>
 
-                {/* Expanded Details */}
+                {/* Expanded Section */}
                 {expandedVehicle === v._id && (
                   <div className="mt-4 border-t pt-3">
                     <p className="text-gray-700">
@@ -294,6 +289,7 @@ export default function VehicleList() {
                       <p className="text-gray-500">No reviews yet.</p>
                     )}
 
+                    {/* Add Review */}
                     <div className="mt-4">
                       <h5 className="font-semibold text-sm mb-1">Leave a Review:</h5>
                       <select
@@ -330,12 +326,14 @@ export default function VehicleList() {
             );
           })
         ) : (
-          <p className="text-center text-gray-600 col-span-full">
-            No vehicles found. Try adjusting filters.
-          </p>
+          <div className="col-span-full text-center text-gray-600 py-10">
+            🚗 <span className="font-semibold">No vehicles found!</span>
+            <p className="text-sm text-gray-500 mt-1">
+              Try changing filters or search for a different keyword.
+            </p>
+          </div>
         )}
       </div>
     </section>
   );
 }
-

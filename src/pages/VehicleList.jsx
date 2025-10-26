@@ -159,7 +159,7 @@ export default function VehicleList() {
           <option value="">All Types</option>
           <option value="car">Car</option>
           <option value="bike">Bike</option>
-          <option value="van">Van</option>
+          <option value="van">Scooter</option>
         </select>
         <input
           type="text"
@@ -338,3 +338,4 @@ export default function VehicleList() {
     </section>
   );
 }
+

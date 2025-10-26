@@ -109,23 +109,30 @@ export default function VehicleList() {
     }
   };
 
-  // ✅ Submit review
-  const handleSubmitReview = async (vehicleId) => {
-    const token = localStorage.getItem("token");
-    if (!token)
-      return Swal.fire("Login Required", "Please log in to leave a review.", "info");
+ // ✅ Submit  review
+const handleSubmitReview = async (vehicleId) => {
+  const token = localStorage.getItem("token");
+  if (!token)
+    return Swal.fire("Login Required", "Please log in to leave a review.", "info");
 
-    try {
-      await axios.post(`${API_BASE_URL}/api/reviews/${vehicleId}`, newReview, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      Swal.fire("✅ Submitted", "Your review was sent for approval.", "success");
-      setNewReview({ rating: 5, comment: "" });
-    } catch (err) {
-      console.error("❌ Review submission error:", err);
-      Swal.fire("Error", "Could not submit review.", "error");
-    }
-  };
+  try {
+    await axios.post(
+      `${API_BASE_URL}/api/reviews/${vehicleId}`,
+      newReview,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    Swal.fire("✅ Success", "Review submitted successfully!", "success");
+    setNewReview({ rating: 5, comment: "" });
+  } catch (err) {
+    console.error("❌ Review submission error:", err);
+    if (err.response?.status === 403)
+      Swal.fire("Access Denied", "You can only review vehicles you've booked.", "warning");
+    else if (err.response?.status === 400)
+      Swal.fire("Duplicate", "You have already reviewed this vehicle.", "info");
+    else Swal.fire("Error", "Could not submit review.", "error");
+  }
+};
+
 
   // ✅ Clear all filters
   const clearFilters = () =>
@@ -337,3 +344,4 @@ export default function VehicleList() {
     </section>
   );
 }
+
